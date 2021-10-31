@@ -13,6 +13,9 @@
 ---
 values:
   pkg:
-    name: postgresql-replication-debian
-  config: /etc/postgresql-replication.d/custom.conf
+    name: postgresql
+  config: /etc/postgresql/
+  pkgrepo:
+    file: /etc/apt/sources.list.d/postgresql.list
+    key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
 ...

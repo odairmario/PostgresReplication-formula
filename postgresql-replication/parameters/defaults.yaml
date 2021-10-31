@@ -4,14 +4,16 @@
 # Set default values.
 ---
 values:
+  pkgdepedencies:
+    - gnupg
+    - wget
+    - lsb-release
   pkg:
-    name: postgresql-replication
+    version: "14"
   rootgroup: root
-  config: '/etc/postgresql-replication'
+  config: "/etc/postgresql/"
   service:
-    name: postgresql-replication
-  subcomponent:
-    config: '/etc/postgresql-replication-subcomponent-formula.conf'
+    name: postgresql
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults
