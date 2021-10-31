@@ -1,0 +1,18 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  pkg:
+    name: postgresql-replication
+  rootgroup: root
+  config: '/etc/postgresql-replication'
+  service:
+    name: postgresql-replication
+  subcomponent:
+    config: '/etc/postgresql-replication-subcomponent-formula.conf'
+  # Just here for testing
+  added_in_defaults: defaults_value
+  winner: defaults
+...
