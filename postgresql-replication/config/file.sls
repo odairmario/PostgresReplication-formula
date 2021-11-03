@@ -4,7 +4,7 @@
 {#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_package_install = tplroot ~ '.package.install' %}
-{%- from tplroot ~ "/map.jinja" import mapdata as postgresql__replication with context %}
+{%- from tplroot ~ "/map.jinja" import mapdata as pg with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
 include:
@@ -12,17 +12,17 @@ include:
 
 postgresql-replication-config-file-file-managed:
   file.managed:
-    - name: {{ postgresql__replication.config }}
-    - source: {{ files_switch(['example.tmpl'],
+    - name: "{{ pg.config }}{{pg.major_version}}/main/postgresql.conf"
+    - source: {{ files_switch(['postgresql.conf.jinja'],
                               lookup='postgresql-replication-config-file-file-managed'
                  )
               }}
     - mode: 644
     - user: root
-    - group: {{ postgresql__replication.rootgroup }}
+    - group: {{ pg.rootgroup }}
     - makedirs: True
     - template: jinja
     - require:
       - sls: {{ sls_package_install }}
     - context:
-        postgresql__replication: {{ postgresql__replication | json }}
+        pg_data: {{ pg | json }}
