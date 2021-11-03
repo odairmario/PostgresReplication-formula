@@ -4,12 +4,12 @@
 # Set default values.
 ---
 values:
+  DEBUG: False
+  major_version: 14
   pkgdepedencies:
     - gnupg
     - wget
     - lsb-release
-  pkg:
-    version: "14"
   rootgroup: root
   config: "/etc/postgresql/"
   service:
@@ -17,4 +17,54 @@ values:
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults
+  settings:
+    file_locations:
+      data_directory: "/var/lib/postgresql/14/main"
+      hba_file: "/etc/postgresql/14/main/pg_hba.conf"
+    connections_and_authentication:
+      listen_addresses: "*"
+      port: 5432
+      max_connections: 1000
+    replication:
+      sending_server:
+        max_replication_slots: 10 # max number of replication slots
+        max_wal_senders: 10 # max number of walsender processes
+      primary_server:
+        vacuum_defer_cleanup_age: 0   # number of xacts by which cleanup is delayed
+        synchronous_standby_names: '' # standby servers that provide sync rep
+                                          # method to choose sync standbys, number of sync standbys,
+                                          # and comma-separated list of application_name
+                                          # from standby(s); '*' = all
+      standby_servers:
+        primary_conninfo: ''                  # connection string to sending server
+        primary_slot_name: ''                 # replication slot on sending server
+        promote_trigger_file: ''              # file name whose presence ends recovery
+        hot_standby: on                       # "off" disallows queries during recovery
+                                               # (change requires restart)
+        max_standby_archive_delay: 30s        # max delay before canceling queries
+                                               # when reading WAL from archive;
+                                               # -1 allows indefinite delay
+        max_standby_streaming_delay: 30s      # max delay before canceling queries
+                                               # when reading streaming WAL;
+                                               # -1 allows indefinite delay
+        wal_receiver_create_temp_slot: off    # create temp slot if primary_slot_name
+                                               # is not set
+        wal_receiver_status_interval: 10s     # send replies at least this often
+                                               # 0 disables
+        hot_standby_feedback: off             # send info from standby to prevent
+                                               # query conflicts
+        wal_receiver_timeout: 60s             # time that receiver waits for
+                                               # communication from primary
+                                               # in milliseconds; 0 disables
+        wal_retrieve_retry_interval: 5s       # time to wait before retrying to
+                                               # retrieve WAL after a failed attempt
+        recovery_min_apply_delay: 0           # minimum delay for applying changes during recovery
+    wal:
+      wal_level: replica # can be minimal, replica or logical
+      archive_mode: off # can be off or on
+      archive_command: "" # command to execute archive
+      restore_command: "" # command to restore 
+
+
+
 ...
